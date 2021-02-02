@@ -47,9 +47,11 @@ public class Main {
 		for(int k=0; k<n; ++k) {
 			for(int i=0; i<n; ++i) {
 				for(int j=0; j<n; ++j) {
-					if(i==j) d[i][j] = 0;				//시작도시와 도착도시가 같으면 0
-					
-					d[i][j] = Math.min(d[i][j], d[i][k]+d[k][j]);
+					if(i==j) {
+						d[i][j] = 0;				//시작도시와 도착도시가 같으면 0
+					} else {
+						d[i][j] = Math.min(d[i][j], d[i][k]+d[k][j]);
+					}
 				}
 			}
 		}
