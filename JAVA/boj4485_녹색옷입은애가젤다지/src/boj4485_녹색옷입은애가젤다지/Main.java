@@ -37,11 +37,10 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		
-		//예제 cnt
 		int probCnt = 0;
 		
 		while(true) {
-			probCnt++;
+			probCnt++;			//예제 cnt
 			
 			st = new StringTokenizer(br.readLine());
 			n = Integer.parseInt(st.nextToken());		//동굴 크기 n*n
