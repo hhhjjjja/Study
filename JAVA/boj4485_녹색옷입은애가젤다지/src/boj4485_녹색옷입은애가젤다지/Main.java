@@ -1,5 +1,5 @@
-package boj4485_����������ְ�������;
-/* BFS + ���ͽ�Ʈ��
+package boj4485_녹색옷입은애가젤다지;
+/* BFS + 다익스트라
  * */
 
 import java.io.BufferedReader;
@@ -37,23 +37,24 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		
-		//���� cnt
+		//예제 cnt
 		int probCnt = 0;
 		
 		while(true) {
 			probCnt++;
 			
 			st = new StringTokenizer(br.readLine());
-			n = Integer.parseInt(st.nextToken());
+			n = Integer.parseInt(st.nextToken());		//동굴 크기 n*n
 			
+			//n=0 입력시 종료
 			if(n == 0) return;
 			
-			map = new int[n][n];
-			visited = new boolean[n][n];
-			resRupee = new int[n][n];
+			map = new int[n][n];				//동굴
+			visited = new boolean[n][n];		//좌표 방문 ox
+			resRupee = new int[n][n];			//다익스트라 결과값 arr
 			
 			for(int i=0; i<n; ++i) {
-				//�ִ� �Ÿ������� �ʱ�ȭ
+				//최대 거리값으로 초기화
 				Arrays.fill(resRupee[i], n*125);
 				
 				st = new StringTokenizer(br.readLine());
@@ -62,9 +63,9 @@ public class Main {
 				}
 			}
 			
-			PriorityQueue<Node> q = new PriorityQueue<Node>();
-			q.add(new Node(0, 0, map[0][0]));
-			resRupee[0][0] = map[0][0];
+			PriorityQueue<Node> q = new PriorityQueue<Node>();		//루피값 기준 오름차순 정렬
+			q.add(new Node(0, 0, map[0][0]));	//시작좌표 노드정보 큐에 삽입
+			resRupee[0][0] = map[0][0];			//(0,0)에서 잃는 루피값은 고정
 			
 			while(!q.isEmpty()) {
 				Node node = q.poll();
@@ -72,14 +73,17 @@ public class Main {
 				int c = node.c;
 				int rupee = node.rupee;
 				
-				if(visited[r][c] == true) continue;
+				if(visited[r][c] == true) continue;		//방문한 노드는 지나침
 				visited[r][c] = true;
 				
+				//상하좌우
 				for(int i=0; i<4; ++i) {
 					int nr = r + dy[i];
 					int nc = c + dx[i];
 					
+					//다음좌표(nr, nc)가 동굴배열 내?
 					if(nr>=0 && nr<n && nc>=0 && nc<n) {
+						//현재좌표에서 잃는 루피 + 다음좌표에서 잃는 루피 -> 가장 작은 값 찾기
 						if(rupee + map[nr][nc] < resRupee[nr][nc]) {
 							resRupee[nr][nc] = rupee + map[nr][nc];
 							q.add(new Node(nr, nc, resRupee[nr][nc]));
