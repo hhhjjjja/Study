@@ -1,4 +1,4 @@
-package swea1868_ÆÄÇÎÆÄÇÎÁö·ÚÃ£±â;
+package swea1868_íŒŒí•‘íŒŒí•‘ì§€ë¢°ì°¾ê¸°;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,7 +19,8 @@ public class Solution {
 	static int [][] landMine;
 	static boolean[][] visited;
 	
-	//¿ŞÀ§ºÎÅÍ ½Ã°è¹æÇâ 
+	//ì™¼ìœ„ë¶€í„° ì‹œê³„ë°©í–¥
+	//ëŒ€ê°ì„ ê¹Œì§€ íƒìƒ‰í•´ì•¼í•˜ë¯€ë¡œ 8
 	static int[] dr = {-1, -1, -1, 0, 1, 1, 1, 0};
 	static int[] dc = {-1, 0, 1, 1, 1, 0, -1, -1};
 	
@@ -30,37 +31,38 @@ public class Solution {
 		T = Integer.parseInt(br.readLine().trim());
 		
 		for(int t=1; t<=T; ++t) {
-			answer = 0;
+			answer = 0;			//í´ë¦­ ìˆ˜ ì´ˆê¸°í™”
 			N = Integer.parseInt(br.readLine().trim());
 			
-			map = new char [N][N];				//Áö·ÚÃ£±â input¸Ê
-			landMine = new int[N][N];			//ÁÖº¯¿¡ ÀÖ´Â Áö·Ú °³¼ö
-			visited = new boolean[N][N];		//¹æ¹®È®ÀÎ
+			map = new char [N][N];				//ì§€ë¢°ì°¾ê¸° inputë§µ
+			landMine = new int[N][N];			//ì£¼ë³€ì— ìˆëŠ” ì§€ë¢° ê°œìˆ˜
+			visited = new boolean[N][N];		//ë°©ë¬¸í™•ì¸
 			
+			//input
 			for(int i=0; i<N; ++i) {
 				map[i] = br.readLine().toCharArray();
 			}
 			
+			//ì£¼ë³€ ì§€ë¢°ê°œìˆ˜ 
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < N; j++) {
-					//Áö·ÚÄ­ Ã£À¸¸é ÁÖº¯ Ä­¿¡ Áö·Ú °³¼ö +1
+					//ì§€ë¢°ì¹¸ ì°¾ìœ¼ë©´ ì£¼ë³€ ì¹¸ì— ì§€ë¢° ê°œìˆ˜ +1
 					if(map[i][j] == '*') {
 						for(int d=0; d<8; ++d) {
 							int nr = i + dr[d];
 							int nc = j + dc[d];
 							
-							//nr,ncÁÂÇ¥°¡ ¸Ê ¹üÀ§ ³»¸é
+							//nr,ncì¢Œí‘œê°€ ë§µ ë²”ìœ„ ë‚´ë©´
 							if(nr>=0 && nr<N && nc>=0 && nc<N) {
 								landMine[nr][nc]++;
 							}
-							//Áö·Ú°¡ ÀÖ´Â Ä­Àº ¹æ¹®Çß´Ù°í Ä§
+							//ì§€ë¢°ê°€ ìˆëŠ” ì¹¸ì€ ë°©ë¬¸í–ˆë‹¤ê³  ì¹¨
 							visited[i][j] = true;
 						}
 					}
 				}
 			}
 			
-			//ÁÖº¯¿¡ ÀÖ´Â Áö·Ú°³¼ö·Î map°ª ¹Ù²Ù±â
 			check();
 			
 			System.out.println("#" + t + " " + answer);
@@ -68,14 +70,14 @@ public class Solution {
 	}
 	
 	static void check() {
-		//0ºÎÅÍ Ã£¾Æ¼­ Ã³¸®
+		//0ë¶€í„° ì°¾ì•„ì„œ ì²˜ë¦¬
 		for(int i=0; i<N; ++i) {
 			for(int j=0; j<N; ++j) {
 				if(landMine[i][j] == 0 && !visited[i][j]) {
-					answer++;	//Å¬¸¯¼ö ÇÑ¹ø ´Ã¸®±â
+					answer++;	//í´ë¦­ìˆ˜ í•œë²ˆ ëŠ˜ë¦¬ê¸°
 					visited[i][j] = true;
 					
-					//ÁÖº¯¿¡ ÀÖ´Â 0µéÀº ÇÑ¹øÅ¬¸¯À¸·Î ´Ù ¿­±â À§ÇØ¼­ bfs»ç¿ë
+					//ì£¼ë³€ì— ìˆëŠ” 0ë“¤ì€ í•œë²ˆí´ë¦­ìœ¼ë¡œ ë‹¤ ì—´ê¸° ìœ„í•´ì„œ bfsì‚¬ìš©
 					Queue<Point> bfs  = new LinkedList<>();
 					bfs.offer(new Point(i, j));
 					
@@ -86,7 +88,7 @@ public class Solution {
 							int nr = p.r + dr[d];
 							int nc = p.c + dc[d];
 							
-							//Å½»öÇÏ´Â ÁÂÇ¥°¡ ¸Ê ¹üÀ§ ³»ÀÌ°í, Áö·Ú¾Æ´Ï°í ¹æ¹®ÇÑÀûµµ ¾øÀ¸¸é
+							//íƒìƒ‰í•˜ëŠ” ì¢Œí‘œê°€ ë§µ ë²”ìœ„ ë‚´ì´ê³ , ì§€ë¢°ì•„ë‹ˆê³  ë°©ë¬¸í•œì ë„ ì—†ìœ¼ë©´
 							if(nr>=0 && nr<N && nc>=0 && nc<N && map[nr][nc] != '*' && !visited[nr][nc]) {
 								visited[nr][nc] = true;
 								
@@ -100,7 +102,7 @@ public class Solution {
 			}
 		}
 		
-		//0ÀÌ¿Ü ³ª¸ÓÁö Ä­µé ¿­±â
+		//0ì´ì™¸ ë‚˜ë¨¸ì§€ ì¹¸ë“¤ ì—´ê¸°
 		for(int i=0; i<N; i++) {
 			for(int j=0; j<N; j++) {
 				if(map[i][j] != '*' && !visited[i][j]) {
