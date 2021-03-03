@@ -16,11 +16,11 @@ public class Main {
 		}
 	}
 	
-	//1부터 ↑, ↖, ←, ↙, ↓, ↘, →, ↗
+	//↑, ↖, ←, ↙, ↓, ↘, →, ↗
 	static int[] dr = {-1, -1, 0, 1, 1, 1, 0, -1};
 	static int[] dc = {0, -1, -1, -1, 0, 1, 1, 1};
 	
-	static int max = 0;
+	static int max = -1;
 	
 	public static void main(String[] args) throws IOException {
 		int[][] map = new int[4][4];
@@ -34,7 +34,7 @@ public class Main {
 			
 			for(int j=0; j<4; ++j) {
 				int s = Integer.parseInt(st.nextToken());
-				int d = Integer.parseInt(st.nextToken());
+				int d = Integer.parseInt(st.nextToken()) - 1;		//dr, dc배열에서는 0부터임.
 				
 				fishes[s] = new Info(i, j, d);		//s번 물고기의 방향 d
 				map[i][j] = s;			//i, j에 s번 물고기 있음
@@ -50,7 +50,6 @@ public class Main {
 		map[0][0] = -1;				//상어위치 state -1
 		
 		dfs(map, fishes, answer, shark);
-		
 		System.out.println(max);
 	}
 	
@@ -59,11 +58,11 @@ public class Main {
 		int[][] map2 = new int [4][4];
 		Info[] fishes2 = new Info[17];
 		
-		for(int i=0; i<4; ++i) {
+		for(int i=0; i<4; i++) {
 			System.arraycopy(map[i], 0, map2[i], 0, 4);
 		}
 		
-		for(int i=1; i<17; ++i) {
+		for(int i=1; i<=16; i++) {
 			fishes2[i] = new Info(fishes[i].r, fishes[i].c, fishes[i].direct);
 		}
 		
@@ -71,8 +70,7 @@ public class Main {
 		for(int i=1; i<=16; ++i) {
 			if(fishes2[i].direct == -1) continue;
 			
-			Info fish = fishes2[i];		//지금 물고기
-			
+			Info fish = new Info(fishes2[i].r, fishes2[i].c, fishes2[i].direct);		//지금 물고기
 			int nd = fish.direct;
 			//이동할 수 있는 방향 찾기
 			for(int d=0; d<8; ++d) {
@@ -107,8 +105,7 @@ public class Main {
 		boolean ff = false;
 		
 		//상어 이동
-		for(int i=1; i<=4; ++i) {
-			
+		for(int i=1; i<4; ++i) {
 			int nr = shark.r + dr[shark.direct]*i;
 			int nc = shark.c + dc[shark.direct]*i;
 			
@@ -132,7 +129,7 @@ public class Main {
 				dfs(map2, fishes2, answer+tmp, s);
 				
 				map2[nr][nc] = tmp;		//값 되돌려놓기
-				fishes[tmp] = new Info(nr, nc, s.direct);
+				fishes2[tmp] = new Info(nr, nc, s.direct);
 				map2[shark.r][shark.c] = -1;
 			}
 		}
